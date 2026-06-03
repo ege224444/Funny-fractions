@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>🐱 Веселые дроби | 5-6 класс</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0f0f1e;
+            padding: 16px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, #6c3ce0 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, #f59e0b 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, #3b82f6 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, -1%) rotate(1deg); }
+            66% { transform: translate(-1%, 2%) rotate(-1deg); }
+        }
+
+        .floating-star {
+            position: fixed;
+            font-size: 18px;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatSlow 8s ease-in-out infinite;
+            opacity: 0.3;
+            filter: blur(0.5px);
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+            25% { transform: translateY(-25px) translateX(15px) scale(1.2); }
+            50% { transform: translateY(-10px) translateX(-10px) scale(0.8); }
+            75% { transform: translateY(-30px) translateX(5px) scale(1.1); }
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 40px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            padding: 24px 18px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .cat-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 14px 18px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cat-icon {
+            font-size: 44px;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .welcome-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #fcd34d);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            line-height: 1.3;
+        }
+
+        .app-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #fcd34d, #fbbf24);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: shimmer 3s linear infinite;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .sections-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 18px 0;
+        }
+
+        .section-btn {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(139, 92, 246, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-btn:active {
+            transform: scale(0.97);
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+        }
+
+        .section-btn:active::before { opacity: 1; }
+
+        .section-btn.completed {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+        }
+
+        .section-btn.completed::after {
+            content: "⭐";
+            margin-left: auto;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .progress-area { margin-bottom: 20px; }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #cbd5e1;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar-bg {
+            background: rgba(255,255,255,0.1);
+            border-radius: 40px;
+            height: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #f59e0b, #f97316, #ef4444, #8b5cf6);
+            background-size: 300% auto;
+            width: 0%;
+            height: 100%;
+            border-radius: 40px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: progressGlow 3s linear infinite;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.5);
+        }
+
+        @keyframes progressGlow {
+            to { background-position: 300% center; }
+        }
+
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin: 16px 0 12px;
+            background: rgba(0,0,0,0.3);
+            padding: 5px;
+            border-radius: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: fit-content;
+            background: transparent;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .theory-block, .practice-block, .visual-block {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 18px;
+            margin: 10px 0 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: none;
+            color: #e2e8f0;
+        }
+
+        .theory-block { border-left: 3px solid #f59e0b; }
+        .practice-block { border-left: 3px solid #3b82f6; }
+        .visual-block { border-left: 3px solid #10b981; }
+        .theory-block.active-tab, .practice-block.active-tab, .visual-block.active-tab { display: block; animation: fadeIn 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .block-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #f1f5f9;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .theory-content { font-size: 0.9rem; line-height: 1.7; }
+        .theory-content p { margin-bottom: 10px; }
+
+        .theory-highlight {
+            background: rgba(245, 158, 11, 0.15);
+            padding: 14px 16px;
+            border-radius: 18px;
+            margin: 12px 0;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .theory-example {
+            background: rgba(59, 130, 246, 0.15);
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin: 12px 0;
+            text-align: center;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .theory-rule {
+            background: rgba(16, 185, 129, 0.15);
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin: 10px 0;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .theory-warning {
+            background: rgba(239, 68, 68, 0.15);
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin: 10px 0;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .theory-list { margin: 8px 0 8px 20px; }
+        .theory-list li { margin: 4px 0; }
+
+        .fraction {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .fraction .top {
+            padding: 0 6px;
+            font-weight: 800;
+            color: #fbbf24;
+        }
+
+        .fraction .bottom {
+            padding: 0 6px;
+            font-weight: 800;
+            color: #fbbf24;
+            border-top: 2px solid #fbbf24;
+        }
+
+        .task-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 16px;
+            margin: 14px 0;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .task-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fbbf24;
+            margin-bottom: 14px;
+        }
+
+        .quiz-question {
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: #f1f5f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: baseline;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .opt-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .opt-btn:active { transform: scale(0.95); }
+        .opt-btn.selected { background: #3b82f6; border-color: #3b82f6; color: white; }
+        .opt-btn.correct-answer { background: #10b981; border-color: #10b981; color: white; }
+        .opt-btn.wrong-answer { background: #ef4444; border-color: #ef4444; color: white; }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            text-align: center;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .input-field.correct-input { border-color: #10b981; background: rgba(16, 185, 129, 0.2); }
+        .input-field.wrong-input { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); }
+
+        .check-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            color: #1a1a2e;
+            width: 100%;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 0 #92400e;
+            transition: all 0.15s;
+        }
+
+        .check-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #92400e; }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .feedback.correct { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+        .feedback.wrong { background: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+
+        .back-home-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #cbd5e1;
+            padding: 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 16px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .back-home-btn:active { background: rgba(255,255,255,0.2); }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            height: 6px;
+            margin: 8px 0;
+            width: 100%;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f59e0b;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(245,158,11,0.5);
+        }
+
+        /* ========================================
+           НОВЫЙ ДИЗАЙН КАРТОЧНОЙ ИГРЫ (ТЕЛЕФОН)
+           ======================================== */
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 24px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f59e0b, #fbbf24, #f59e0b);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .game-card.removed {
+            opacity: 0.4;
+            pointer-events: none;
+            filter: grayscale(0.5);
+        }
+
+        .game-card-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #f59e0b;
+            color: #1a1a2e;
+            border-radius: 50%;
+            font-weight: 900;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        .game-card-expression {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 14px 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #f1f5f9;
+            margin-bottom: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 1px;
+            word-break: break-word;
+        }
+
+        .game-card-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .game-card-input {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 0.95rem;
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .game-card-input:focus {
+            outline: none;
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+        }
+
+        .game-card-input.correct-input {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .game-card-input.wrong-input {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .game-card-check {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            color: #1a1a2e;
+            cursor: pointer;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 0 #92400e;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .game-card-check:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #92400e;
+        }
+
+        .game-card-hint {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .game-card-hint.correct { color: #6ee7b7; }
+        .game-card-hint.wrong { color: #fca5a5; }
+
+        .game-status-bar {
+            background: rgba(0,0,0,0.3);
+            margin-top: 18px;
+            padding: 12px 18px;
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .game-score {
+            background: rgba(245, 158, 11, 0.2);
+            padding: 6px 14px;
+            border-radius: 20px;
+            color: #fbbf24;
+        }
+
+        .game-reset-btn {
+            background: rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* === ВИКТОРИНА === */
+        .quiz-section {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3));
+            border-radius: 28px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quiz-title {
+            font-weight: 800;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .quiz-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        .quiz-question-text {
+            background: rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 20px;
+            margin: 12px 0;
+            font-weight: 800;
+            text-align: center;
+            font-size: 1.05rem;
+            color: #fff;
+        }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.08);
+            padding: 14px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+
+        .quiz-option.selected-correct { background: #10b981; color: white; }
+        .quiz-option.selected-wrong { background: #ef4444; color: white; }
+        .quiz-option.disabled { opacity: 0.5; pointer-events: none; }
+
+        .quiz-next-btn {
+            background: #f59e0b;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            color: #1a1a2e;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 0 #92400e;
+        }
+
+        .quiz-next-btn:disabled { opacity: 0.5; pointer-events: none; }
+
+        /* === ВИЗУАЛИЗАЦИЯ === */
+        .visual-pizza-box, .multi-model-box {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            background: rgba(255,255,255,0.05);
+            border-radius: 22px;
+            padding: 14px 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .visual-pizza-canvas, .multi-model-canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .visual-op-btn, .multi-op-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            color: #cbd5e1;
+        }
+
+        .visual-op-btn.active, .multi-op-btn.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .fraction-display, .visual-fraction-display, .multi-fraction-display {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            padding: 12px 24px;
+            border-radius: 20px;
+        }
+
+        .fraction-number, .visual-fraction-number, .multi-fraction-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #fbbf24;
+        }
+
+        .fraction-line, .visual-fraction-line, .multi-fraction-line {
+            width: 50px;
+            height: 3px;
+            background: #fbbf24;
+            margin: 4px 0;
+            border-radius: 2px;
+        }
+
+        .fraction-denom, .visual-fraction-denom, .multi-fraction-denom {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fbbf24;
+        }
+
+        .visual-hint, .multi-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        .visual-info-text, .multi-info-text {
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 16px;
+            padding: 10px;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            margin-top: 10px;
+        }
+
+        .step-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: #cbd5e1;
+        }
+
+        .slice-preset, .visual-slice-preset, .multi-preset-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #cbd5e1;
+        }
+
+        .slice-preset.active, .visual-slice-preset.active, .multi-preset-btn.active {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .model-canvas {
+            background: transparent;
+        }
+    </style>
+</head>
+<body>
+<div class="app-container" id="appRoot"></div>
+
+<script>
+    // === ПЛАВАЮЩИЕ ЗВЁЗДОЧКИ ===
+    for (let i = 0; i < 12; i++) {
+        const star = document.createElement('div');
+        star.className = 'floating-star';
+        star.innerHTML = ['⭐','✨','🌟','💫','🌙'][Math.floor(Math.random()*5)];
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.fontSize = (Math.random() * 18 + 10) + 'px';
+        star.style.animationDelay = Math.random() * 8 + 's';
+        document.body.appendChild(star);
+    }
+
+    const PRAISE = ["🎉 Ты супер!", "⭐ Отлично!", "🌟 Гений!", "👍 Молодец!", "💪 Класс!", "🏆 Победа!", "🌸 Умничка!"];
+    const ENCOURAGE = ["😊 Попробуй ещё!", "🤔 Внимательнее!", "💡 Давай ещё раз!", "📚 Получится!", "✨ Почти!", "🍀 Снова!"];
+    function randMsg(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function frac(n, d) {
+        return `<span class="fraction"><span class="top">${n}</span><span class="bottom">${d}</span></span>`;
+    }
+
+    function renderFractionWithLine(num, den) {
+        return `<span class="fraction"><span class="top">${num}</span><span class="bottom">${den}</span></span>`;
+    }
+
+    // === ТЕОРИЯ ===
+    const THEORY_CONTENT = {
+        1: `<div class="theory-content"><p><strong>📖 Обыкновенная дробь</strong> — это запись вида <strong><span class="fraction"><span class="top">a</span><span class="bottom">b</span></span></strong>, где <strong>a</strong> и <strong>b</strong> — натуральные числа.</p>
+                <div class="theory-highlight"><p>📌 <strong style="color: #60a5fa;">Знаменатель</strong> (под чертой) показывает, <strong>на сколько долей делят</strong> целое.</p>
+                <p>📌 <strong style="color: #f87171;">Числитель</strong> (над чертой) показывает, <strong>сколько таких долей взято</strong>.</p>
+                <p>🎯 <strong>Запомни:</strong> Черту дроби можно понимать как <strong>знак деления</strong>!</p></div>
+                <div class="theory-example"><strong>📌 Пример:</strong> В дроби ${frac(3,4)} — целое разделили на 4 части и взяли 3 части.</div>
+                <div class="theory-rule"><strong>✅ Правильная дробь</strong> — числитель <strong style="color: #10b981;">меньше</strong> знаменателя.</div>
+                <div class="theory-warning"><strong>⚠️ Неправильная дробь</strong> — числитель <strong style="color: #ef4444;">больше или равен</strong> знаменателю.</div>
+                <div class="theory-highlight"><p><strong>🎯 Смешанное число</strong> — это <strong>целая часть + дробь</strong>.</p>
+                <p>Например: ${frac(7,4)} = 1 ${frac(3,4)}</p></div></div>`,
+        2: `<div class="theory-content"><p><strong>📖 Основное свойство дроби</strong></p>
+                <div class="theory-highlight"><p>Если числитель и знаменатель дроби <strong>умножить</strong> или <strong>разделить</strong> на одно и то же натуральное число, то получится <strong>равная ей дробь</strong>.</p></div>
+                <div class="theory-example"><strong>🎯 Пример:</strong> ${frac(12,16)} = ${frac(3,4)}<br>(разделили числитель и знаменатель на 4)</div>
+                <div class="theory-rule">💡 <strong>Деление числителя и знаменателя на их общий делитель, отличный от единицы, называют сокращением дроби.</strong></div>
+                <div class="theory-highlight"><p><strong>📌 Как сократить дробь?</strong></p>
+                <ol class="theory-list"><li>Найти НОД числителя и знаменателя;</li><li>Разделить числитель и знаменатель на НОД.</li></ol></div></div>`,
+        3: `<div class="theory-content"><p><strong>📖 Что такое общий знаменатель?</strong></p>
+                <div class="theory-highlight"><p>Чтобы сложить или сравнить дроби, их нужно привести к <strong>одинаковому знаменателю</strong>.</p></div>
+                <div class="theory-example"><strong>🎯 Пример:</strong> ${frac(1,3)} и ${frac(1,2)} → общий знаменатель <strong>6</strong><br>${frac(1,3)} = ${frac(2,6)} &nbsp;&nbsp; ${frac(1,2)} = ${frac(3,6)}</div>
+                <div class="theory-rule">💡 <strong>Наибольшее число, на которое можно сократить дробь, — это НОД её числителя и знаменателя.</strong></div>
+                <div class="theory-highlight"><p>📌 <strong>Любые две дроби можно привести к общему знаменателю.</strong></p></div></div>`,
+        4: `<div class="theory-content"><p><strong>📖 Сложение и вычитание дробей</strong></p>
+                <div class="theory-rule"><strong>✅ С одинаковыми знаменателями:</strong> складываем (вычитаем) числители, знаменатель оставляем.</div>
+                <div class="theory-example">📌 <strong>Пример:</strong> ${frac(1,5)} + ${frac(2,5)} = ${frac(3,5)}</div>
+                <div class="theory-warning"><strong>⚠️ С разными знаменателями:</strong> приводим к общему знаменателю, потом складываем.</div>
+                <div class="theory-example">📌 <strong>Пример:</strong> ${frac(1,2)} + ${frac(1,3)} = ${frac(3,6)} + ${frac(2,6)} = ${frac(5,6)}</div>
+                <div class="theory-highlight"><p><strong>📌 Алгоритм:</strong></p><ol class="theory-list"><li>привести дроби к общему знаменателю;</li><li>сложить (вычесть) полученные дроби;</li><li>при необходимости сократить результат.</li></ol></div></div>`,
+        5: `<div class="theory-content"><p><strong>📖 Умножение и деление дробей</strong></p>
+                <div class="theory-rule"><strong>✖️ Умножение:</strong> числитель на числитель, знаменатель на знаменатель.</div>
+                <div class="theory-example">📌 <strong>Пример:</strong> ${frac(2,3)} × ${frac(3,4)} = ${frac(6,12)} = ${frac(1,2)}</div>
+                <div class="theory-warning"><strong>➗ Деление:</strong> умножаем на перевёрнутую дробь (делитель).</div>
+                <div class="theory-example">📌 <strong>Пример:</strong> ${frac(2,3)} ÷ ${frac(4,5)} = ${frac(2,3)} × ${frac(5,4)} = ${frac(10,12)} = ${frac(5,6)}</div>
+                <div class="theory-highlight"><p>📌 <strong>Важные правила:</strong></p><ul class="theory-list"><li>Чтобы умножить смешанное число, переводим его в неправильную дробь;</li><li>Целое число представляем как дробь с знаменателем 1;</li><li>Всегда сокращаем результат.</li></ul></div></div>`,
+        6: `<div class="theory-content"><p><strong>🎮 Итоговая игра</strong></p>
+                <div class="theory-highlight"><p>Проверь свои знания! Сначала ответь на вопросы викторины, а затем реши примеры в карточной игре.</p>
+                <p>💡 <strong>Совет:</strong> Вспомни все правила из предыдущих разделов!</p></div></div>`,
+        7: `<div class="theory-content"><p><strong>🐱 Бонусная игра: Кот-математик</strong></p>
+                <div class="theory-highlight"><p>Управляй котом пальцем или мышкой! Собирай облака с правильными ответами.</p>
+                <p>🎯 <strong>Цель:</strong> собрать 5 правильных ответов.</p></div>
+                <div class="theory-rule">💡 <strong>Правила:</strong><ul class="theory-list"><li>Кот бежит за твоим пальцем/курсором;</li><li>Подбегай к облаку с правильным ответом;</li><li>После 5 правильных ответов — победа!</li></ul></div></div>`
+    };
+
+    const CARDS_DATA = [
+        { text: "1 - 3/8", correct: ["5/8"] },
+        { text: "2/9 + 4/7", correct: ["50/63"] },
+        { text: "45/8 × 6/5", correct: ["81/8", "10 1/8"] },
+        { text: "49/6 × 12/7", correct: ["14", "14/1"] },
+        { text: "13/20 - 9/35", correct: ["38/105"] },
+        { text: "17/15 - 1/12", correct: ["21/20"] },
+        { text: "9/11 + 3/5", correct: ["78/55"] },
+        { text: "33/4 × 8/3", correct: ["22", "22/1"] }
+    ];
+
+    function getRichMathExpression(idx) {
+        return CARDS_DATA[idx].text.replace(/(\d+)\/(\d+)/g, (m, a, b) => renderFractionWithLine(a, b)).replace(/\*/g, '×');
+    }
+
+    function isAnswerCorrectForCard(idx, ans) {
+        ans = ans.trim().replace(/\s+/g, ' ');
+        const okList = CARDS_DATA[idx].correct;
+        for (let ok of okList) {
+            if (ans === ok || ans.replace(/\s/g, '') === ok.replace(/\s/g, '')) return true;
+        }
+        const f = parseFloat(ans);
+        if (!isNaN(f)) {
+            for (let ok of okList) {
+                const of = parseFloat(ok);
+                if (!isNaN(of) && Math.abs(f - of) < 0.0001) return true;
+            }
+        }
+        return false;
+    }
+
+    const SECTIONS_DATA = [
+        { id:1, title:"📖 Что такое дробь", isInteractive: true, theoryKey: 1 },
+        { id:2, title:"✂️ Сокращение дробей", theoryKey: 2,
+          tasks: [
+              { text: `Сократи ${frac(12,16)}`, correct: "3/4", placeholder:"Введите ответ", type:"input" },
+              { text: `Сократи ${frac(15,25)}`, correct: "3/5", placeholder:"Введите ответ", type:"input" },
+              { text: `Сократи ${frac(18,24)}`, correct: "3/4", placeholder:"Введите ответ", type:"input" },
+              { text: `Сократи ${frac(20,30)}`, correct: "2/3", placeholder:"Введите ответ", type:"input" },
+              { text: `Сократи ${frac(14,21)}`, correct: "2/3", placeholder:"Введите ответ", type:"input" }
+          ] },
+        { id:3, title:"🔄 Общий знаменатель", theoryKey: 3,
+          tasks: [
+              { text: `Общий знаменатель ${frac(2,5)} и ${frac(1,3)}?`, options:["10","15","5"], correct:"15", type:"choice" },
+              { text: `Общий знаменатель ${frac(1,2)} и ${frac(1,6)}?`, options:["10","12","6"], correct:"6", type:"choice" },
+              { text: `Общий знаменатель ${frac(3,4)} и ${frac(2,5)}?`, options:["12","20","18"], correct:"20", type:"choice" },
+              { text: `Общий знаменатель ${frac(5,6)} и ${frac(1,8)}?`, options:["24","48","16"], correct:"24", type:"choice" },
+              { text: `Приведи ${frac(2,3)} к знаменателю 12.`, options:["8/12","9/12","10/12"], correct:"8/12", type:"choice" }
+          ] },
+        { id:4, title:"➕ Сложение и вычитание", theoryKey: 4, hasVisual4: true,
+          tasks: [
+              { text: `${frac(2,5)} + ${frac(1,5)} = ?`, options: [frac(3,5), frac(3,10), "2/25"], rawOptions: ["3/5","3/10","2/25"], correct: "3/5", type:"choice" },
+              { text: `${frac(2,3)} + ${frac(1,6)} = ?`, options: [frac(5,6), frac(3,9), "1/2"], rawOptions: ["5/6","3/9","1/2"], correct: "5/6", type:"choice" },
+              { text: `${frac(7,8)} - ${frac(3,8)} = ?`, options: ["4/8", frac(1,2), "1/4"], rawOptions: ["4/8","1/2","1/4"], correct: "1/2", type:"choice" },
+              { text: `${frac(3,4)} - ${frac(1,2)} = ?`, options: [frac(1,4), "1/2", "3/4"], rawOptions: ["1/4","1/2","3/4"], correct: "1/4", type:"choice" },
+              { text: `2 <span class="fraction"><span class="top">1</span><span class="bottom">3</span></span> + 1 <span class="fraction"><span class="top">1</span><span class="bottom">3</span></span> = ?`, options: ["3 2/3","3 1/3","4 1/3"], correct: "3 2/3", type:"choice" }
+          ] },
+        { id:5, title:"✖️ Умножение и деление", theoryKey: 5, hasVisual5: true,
+          tasks: [
+              { text: `${frac(3,4)} × ${frac(2,5)} = ?`, options: [frac(3,10), "6/20", "3/5"], rawOptions: ["3/10","6/20","3/5"], correct: "3/10", type:"choice" },
+              { text: `${frac(2,3)} ÷ ${frac(4,5)} = ?`, options: [frac(5,6), "8/15", "10/12"], rawOptions: ["5/6","8/15","10/12"], correct: "5/6", type:"choice" },
+              { text: `${frac(5,6)} × 3 = ?`, options: ["15/6", frac(5,2), "5/18"], rawOptions: ["15/6","5/2","5/18"], correct: "5/2", type:"choice" },
+              { text: `${frac(7,8)} ÷ 2 = ?`, options: ["7/16","14/8","7/4"], correct: "7/16", type:"choice" },
+              { text: `1 <span class="fraction"><span class="top">1</span><span class="bottom">2</span></span> × <span class="fraction"><span class="top">2</span><span class="bottom">3</span></span> = ?`, options: ["1","3/6","1 1/3"], correct: "1", type:"choice" }
+          ] },
+        { id:6, title:"🎮 Итоговая игра", isGame: true, theoryKey: 6 },
+        { id:7, title:"🐱 Бонус: Кот-математик", isFlight: true, theoryKey: 7 }
+    ];
+
+    let currentScreen = "home";
+    let activeSection = 1;
+    let sectionProgress = {1:false,2:false,3:false,4:false,5:false,6:false,7:false};
+    let answersStorage = {};
+    let gameCardsState = [];
+    let quizCurrentIndex = 0;
+    let quizAnswers = [];
+    let quizCompleted = false;
+    let catGameInitialized = false;
+    let interactiveInitialized = false;
+    let visual4Initialized = false;
+    let visual5Initialized = false;
+
+    function updateProgress() {
+        let done = Object.values(sectionProgress).filter(v=>v===true).length;
+        let fill = document.querySelector('.progress-fill');
+        if(fill) fill.style.width = `${(done/7)*100}%`;
+        let span = document.querySelector('.progress-label span:last-child');
+        if(span) span.innerText = `${done}/7`;
+    }
+
+    const QUIZ_QUESTIONS = [
+        { question: "Что такое числитель дроби?", options: ["Число снизу", "Число сверху", "Черта дроби"], correct: 1 },
+        { question: "Что такое знаменатель дроби?", options: ["Число снизу", "Число сверху", "Черта дроби"], correct: 0 },
+        { question: "Какую дробь называют правильной?", options: ["Числитель > Знаменателя", "Числитель < Знаменателя", "Числитель = Знаменателю"], correct: 1 },
+        { question: "Какую дробь называют неправильной?", options: ["Числитель > Знаменателя", "Числитель < Знаменателя", "Числитель = 0"], correct: 0 },
+        { question: `Сократи дробь <span class="fraction"><span class="top">8</span><span class="bottom">12</span></span>`, options: ["2/3", "4/6", "3/4"], correct: "2/3" },
+        { question: `<span class="fraction"><span class="top">2</span><span class="bottom">3</span></span> + <span class="fraction"><span class="top">1</span><span class="bottom">6</span></span> = ?`, options: ["5/6", "1/2", "7/6"], correct: "5/6" }
+    ];
+
+    function initInteractiveSection() {
+        if (interactiveInitialized) return;
+        interactiveInitialized = true;
+
+        // ======== ПИЦЦА ========
+        let pizzaSlices = 4, pizzaSelected = 2, pizzaData = [];
+        const pizzaCanvas = document.getElementById('pizzaCanvas');
+        if (pizzaCanvas) {
+            const ctxPizza = pizzaCanvas.getContext('2d');
+            function drawPizza() {
+                pizzaCanvas.width = 300; pizzaCanvas.height = 300;
+                ctxPizza.clearRect(0,0,300,300);
+                if (!pizzaSlices) return;
+                const cx = 150, cy = 150, r = 120;
+                const step = (Math.PI*2)/pizzaSlices;
+                for (let i=0; i<pizzaSlices; i++) {
+                    ctxPizza.beginPath(); ctxPizza.moveTo(cx,cy); ctxPizza.arc(cx,cy,r,i*step,(i+1)*step); ctxPizza.closePath();
+                    ctxPizza.fillStyle = pizzaData[i] ? '#f59e0b' : '#334155';
+                    ctxPizza.fill(); ctxPizza.strokeStyle = '#1e293b'; ctxPizza.lineWidth=2; ctxPizza.stroke();
+                }
+                ctxPizza.beginPath(); ctxPizza.arc(cx,cy,12,0,Math.PI*2); ctxPizza.fillStyle='#92400e'; ctxPizza.fill();
+            }
+            function updatePizzaUI() {
+                ['pizzaSelectedCount','pizzaSelectedLabel'].forEach(id => { const e=document.getElementById(id); if(e) e.innerText = pizzaSelected; });
+                const t = document.getElementById('pizzaTotalLabel'); if(t) t.innerText = pizzaSlices;
+                const n = document.getElementById('pizzaNumerDisplay'); if(n) n.innerText = pizzaSelected;
+                const d = document.getElementById('pizzaDenomDisplay'); if(d) d.innerText = pizzaSlices;
+            }
+            function rebuildPizza() { pizzaData = Array(pizzaSlices).fill(false); for(let i=0;i<pizzaSelected;i++) pizzaData[i]=true; drawPizza(); }
+            function pizzaClick(e) {
+                let cx, cy;
+                if (e.touches) { cx=e.touches[0].clientX; cy=e.touches[0].clientY; e.preventDefault(); }
+                else { cx=e.clientX; cy=e.clientY; }
+                const rect = pizzaCanvas.getBoundingClientRect();
+                const sx = 300/rect.width, sy = 300/rect.height;
+                const mx = (cx-rect.left)*sx, my = (cy-rect.top)*sy;
+                const dx=mx-150, dy=my-150;
+                if (Math.hypot(dx,dy)>120) return;
+                let a = Math.atan2(dy,dx); if(a<0) a+=Math.PI*2;
+                let idx = Math.floor(a/((Math.PI*2)/pizzaSlices));
+                if(idx>=pizzaSlices) idx=pizzaSlices-1;
+                pizzaData[idx]=!pizzaData[idx];
+                pizzaSelected = pizzaData.filter(v=>v).length;
+                drawPizza(); updatePizzaUI();
+            }
+            pizzaCanvas.addEventListener('click', pizzaClick);
+            pizzaCanvas.addEventListener('touchstart', e => { e.preventDefault(); pizzaClick(e.touches[0]); });
+            document.getElementById('pizzaDec').addEventListener('click',()=>{ pizzaSelected=Math.max(0,pizzaSelected-1); rebuildPizza(); updatePizzaUI(); });
+            document.getElementById('pizzaInc').addEventListener('click',()=>{ pizzaSelected=Math.min(pizzaSlices,pizzaSelected+1); rebuildPizza(); updatePizzaUI(); });
+            const presets = document.getElementById('pizzaPresets');
+            [2,4,6,8].forEach(n => {
+                const b = document.createElement('button'); b.innerText=n+' куска'; b.className='slice-preset';
+                if(n===4) b.classList.add('active');
+                b.addEventListener('click',()=>{ pizzaSlices=n; if(pizzaSelected>n) pizzaSelected=n; rebuildPizza(); updatePizzaUI();
+                    document.querySelectorAll('#pizzaPresets .slice-preset').forEach(x=>x.classList.remove('active')); b.classList.add('active'); });
+                presets.appendChild(b);
+            });
+            rebuildPizza(); updatePizzaUI();
+        }
+
+        // ======== КРУГ ========
+        const circleCanvas = document.getElementById('circleCanvas');
+        if (circleCanvas) {
+            const ctxCircle = circleCanvas.getContext('2d');
+            const circlePartsSlider = document.getElementById('circlePartsSlider');
+            const circleFilledSlider = document.getElementById('circleFilledSlider');
+            const circlePartsVal = document.getElementById('circlePartsVal');
+            const circleFilledVal = document.getElementById('circleFilledVal');
+            const circleFractionDisplay = document.getElementById('circleFractionDisplay');
+
+            function drawCircle(parts, filled) {
+                circleCanvas.width = 200; circleCanvas.height = 200;
+                ctxCircle.clearRect(0,0,200,200);
+                if (parts === 0) return;
+                const cx = 100, cy = 100, r = 84;
+                const step = (Math.PI*2)/parts;
+                for (let i=0; i<parts; i++) {
+                    ctxCircle.beginPath(); ctxCircle.moveTo(cx,cy); ctxCircle.arc(cx,cy,r,i*step,(i+1)*step); ctxCircle.closePath();
+                    ctxCircle.fillStyle = i < filled ? '#10b981' : '#334155';
+                    ctxCircle.fill(); ctxCircle.strokeStyle = '#1e293b'; ctxCircle.lineWidth=2; ctxCircle.stroke();
+                }
+                ctxCircle.beginPath(); ctxCircle.arc(cx,cy,10,0,Math.PI*2); ctxCircle.fillStyle='#92400e'; ctxCircle.fill();
+            }
+
+            function updateCircleUI() {
+                let parts = parseInt(circlePartsSlider.value);
+                let filled = parseInt(circleFilledSlider.value);
+                if (filled > parts) { filled = parts; circleFilledSlider.value = filled; }
+                circleFilledSlider.max = parts;
+                circlePartsVal.innerText = parts;
+                circleFilledVal.innerText = filled;
+                if (circleFractionDisplay) circleFractionDisplay.innerHTML = `${renderFractionWithLine(filled, parts)}`;
+                drawCircle(parts, filled);
+            }
+
+            circlePartsSlider.addEventListener('input', updateCircleUI);
+            circleFilledSlider.addEventListener('input', updateCircleUI);
+            updateCircleUI();
+        }
+
+        // ======== КВАДРАТ ========
+        const gridCanvas = document.getElementById('gridCanvas');
+        if (gridCanvas) {
+            const ctxGrid = gridCanvas.getContext('2d');
+            const gridColsSlider = document.getElementById('gridColsSlider');
+            const gridRowsSlider = document.getElementById('gridRowsSlider');
+            const gridFilledSlider = document.getElementById('gridFilledSlider');
+            const gridColsVal = document.getElementById('gridColsVal');
+            const gridRowsVal = document.getElementById('gridRowsVal');
+            const gridFilledVal = document.getElementById('gridFilledVal');
+            const gridFractionDisplay = document.getElementById('gridFractionDisplay');
+
+            function drawGrid() {
+                const cols = parseInt(gridColsSlider.value);
+                const rows = parseInt(gridRowsSlider.value);
+                let filled = parseInt(gridFilledSlider.value);
+                const total = cols * rows;
+                if (filled > total) { filled = total; gridFilledSlider.value = filled; }
+                gridFilledSlider.max = total;
+                gridColsVal.innerText = cols;
+                gridRowsVal.innerText = rows;
+                gridFilledVal.innerText = filled;
+                if (gridFractionDisplay) gridFractionDisplay.innerHTML = `${renderFractionWithLine(filled, total)}`;
+                gridCanvas.width = 200; gridCanvas.height = 200;
+                ctxGrid.clearRect(0,0,200,200);
+                const cw = 200/cols, ch = 200/rows;
+                let count = 0;
+                for (let r=0; r<rows; r++) {
+                    for (let c=0; c<cols; c++) {
+                        ctxGrid.fillStyle = count < filled ? '#8b5cf6' : '#334155';
+                        ctxGrid.fillRect(c*cw, r*ch, cw-1, ch-1);
+                        ctxGrid.strokeStyle = '#1e293b'; ctxGrid.strokeRect(c*cw, r*ch, cw-1, ch-1);
+                        count++;
+                    }
+                }
+            }
+
+            function updateGridUI() { drawGrid(); }
+            gridColsSlider.addEventListener('input', updateGridUI);
+            gridRowsSlider.addEventListener('input', updateGridUI);
+            gridFilledSlider.addEventListener('input', updateGridUI);
+            updateGridUI();
+        }
+    }
+
+    function initVisualSection4() {
+        if (visual4Initialized) return;
+        visual4Initialized = true;
+        class VP {
+            constructor(cid, sid, tid) {
+                this.c = document.getElementById(cid); this.ctx = this.c.getContext('2d');
+                this.s = document.getElementById(sid); this.t = document.getElementById(tid);
+                this.slices=4; this.filled=2; this.data=[];
+                this.init(); this.draw();
+            }
+            init() { this.data=Array(this.slices).fill(false); for(let i=0;i<this.filled;i++) this.data[i]=true; }
+            draw() {
+                this.c.width=200; this.c.height=200; this.ctx.clearRect(0,0,200,200);
+                if(!this.slices) return;
+                const cx=100, cy=100, r=84, step=(Math.PI*2)/this.slices;
+                for(let i=0;i<this.slices;i++) {
+                    this.ctx.beginPath(); this.ctx.moveTo(cx,cy); this.ctx.arc(cx,cy,r,i*step,(i+1)*step); this.ctx.closePath();
+                    this.ctx.fillStyle=this.data[i]?'#f59e0b':'#334155';
+                    this.ctx.fill(); this.ctx.strokeStyle='#1e293b'; this.ctx.lineWidth=2; this.ctx.stroke();
+                }
+                this.ctx.beginPath(); this.ctx.arc(cx,cy,10,0,Math.PI*2); this.ctx.fillStyle='#92400e'; this.ctx.fill();
+                this.s.innerText=this.filled; this.t.innerText=this.slices;
+            }
+            setS(n) { this.slices=Math.max(1,n); if(this.filled>this.slices) this.filled=this.slices; this.init(); this.draw(); }
+            setF(n) { this.filled=Math.min(this.slices,Math.max(0,n)); this.init(); this.draw(); }
+            click(cx,cy,rect) {
+                const s=200/rect.width;
+                const mx=(cx-rect.left)*s, my=(cy-rect.top)*s;
+                const dx=mx-100, dy=my-100;
+                if(Math.hypot(dx,dy)>84) return;
+                let a=Math.atan2(dy,dx); if(a<0) a+=Math.PI*2;
+                let idx=Math.floor(a/((Math.PI*2)/this.slices));
+                if(idx>=this.slices) idx=this.slices-1;
+                this.data[idx]=!this.data[idx];
+                this.filled=this.data.filter(v=>v).length;
+                this.draw();
+            }
+        }
+        const p1 = new VP('visualPizza1Canvas','visualPizza1Count','visualPizza1Total');
+        const p2 = new VP('visualPizza2Canvas','visualPizza2Count','visualPizza2Total');
+        let op = 'add';
+        function attach(p, id) {
+            const c = document.getElementById(id);
+            const h = e => { let cx, cy; if(e.touches){cx=e.touches[0].clientX;cy=e.touches[0].clientY;e.preventDefault();}else{cx=e.clientX;cy=e.clientY;} p.click(cx,cy,c.getBoundingClientRect()); refresh(); };
+            c.addEventListener('click',h); c.addEventListener('touchstart',e=>{e.preventDefault();h(e.touches[0]);});
+        }
+        attach(p1,'visualPizza1Canvas'); attach(p2,'visualPizza2Canvas');
+        document.getElementById('visualPizza1Inc').addEventListener('click',()=>{p1.setF(p1.filled+1);refresh();});
+        document.getElementById('visualPizza1Dec').addEventListener('click',()=>{p1.setF(p1.filled-1);refresh();});
+        document.getElementById('visualPizza2Inc').addEventListener('click',()=>{p2.setF(p2.filled+1);refresh();});
+        document.getElementById('visualPizza2Dec').addEventListener('click',()=>{p2.setF(p2.filled-1);refresh();});
+        document.querySelectorAll('.visual-slice-preset').forEach(b=>b.addEventListener('click',()=>{const id=parseInt(b.dataset.pizza),sl=parseInt(b.dataset.slices);if(id===1)p1.setS(sl);else p2.setS(sl);refresh();}));
+        document.getElementById('visualOpAdd').addEventListener('click',()=>{op='add';document.getElementById('visualOpAdd').classList.add('active');document.getElementById('visualOpSub').classList.remove('active');refresh();});
+        document.getElementById('visualOpSub').addEventListener('click',()=>{op='sub';document.getElementById('visualOpSub').classList.add('active');document.getElementById('visualOpAdd').classList.remove('active');refresh();});
+        document.getElementById('visualOpAdd').classList.add('active');
+        function refresh(){const cd=p1.slices*p2.slices;const n1=p1.filled*p2.slices,n2=p2.filled*p1.slices;let rn,comment='';if(op==='add'){rn=n1+n2;comment=`🍕 ${p1.filled}/${p1.slices} + ${p2.filled}/${p2.slices} = ${rn}/${cd}`;}else{rn=n1-n2;comment=`🍕 ${p1.filled}/${p1.slices} − ${p2.filled}/${p2.slices} = ${rn}/${cd}`;}document.getElementById('visualResultNumer').innerText=rn;document.getElementById('visualResultDenom').innerText=cd;document.getElementById('visualResultComment').innerHTML=comment;}
+        document.getElementById('visualResetBtn4').addEventListener('click',()=>{p1.setS(4);p1.setF(2);p2.setS(4);p2.setF(1);op='add';document.getElementById('visualOpAdd').classList.add('active');document.getElementById('visualOpSub').classList.remove('active');refresh();});
+        refresh();
+    }
+
+    function initVisualSection5() {
+        if (visual5Initialized) return;
+        visual5Initialized = true;
+        class CircleF {
+            constructor(cid,fsid,tsid,ftid){this.c=document.getElementById(cid);this.ctx=this.c.getContext('2d');this.fs=document.getElementById(fsid);this.ts=document.getElementById(tsid);this.ft=document.getElementById(ftid);this.slices=4;this.filled=2;this.data=[];this.init();this.draw();}
+            init(){this.data=Array(this.slices).fill(false);for(let i=0;i<this.filled;i++)this.data[i]=true;}
+            draw(){this.c.width=200;this.c.height=200;this.ctx.clearRect(0,0,200,200);if(!this.slices)return;const cx=100,cy=100,r=84,step=(Math.PI*2)/this.slices;for(let i=0;i<this.slices;i++){this.ctx.beginPath();this.ctx.moveTo(cx,cy);this.ctx.arc(cx,cy,r,i*step,(i+1)*step);this.ctx.closePath();this.ctx.fillStyle=this.data[i]?'#f59e0b':'#334155';this.ctx.fill();this.ctx.strokeStyle='#1e293b';this.ctx.lineWidth=2;this.ctx.stroke();}this.ctx.beginPath();this.ctx.arc(cx,cy,10,0,Math.PI*2);this.ctx.fillStyle='#92400e';this.ctx.fill();this.fs.innerText=this.filled;this.ts.innerText=this.slices;this.ft.innerText=`${this.filled}/${this.slices}`;}
+            setS(n){this.slices=Math.max(1,n);if(this.filled>this.slices)this.filled=this.slices;this.init();this.draw();}
+            setF(n){this.filled=Math.min(this.slices,Math.max(0,n));this.init();this.draw();}
+            click(cx,cy,rect){const s=200/rect.width,mx=(cx-rect.left)*s,my=(cy-rect.top)*s;const dx=mx-100,dy=my-100;if(Math.hypot(dx,dy)>84)return;let a=Math.atan2(dy,dx);if(a<0)a+=Math.PI*2;let idx=Math.floor(a/((Math.PI*2)/this.slices));if(idx>=this.slices)idx=this.slices-1;this.data[idx]=!this.data[idx];this.filled=this.data.filter(v=>v).length;this.draw();}
+        }
+        class ChocoF {
+            constructor(cid,fsid,tsid,ftid){this.c=document.getElementById(cid);this.ctx=this.c.getContext('2d');this.fs=document.getElementById(fsid);this.ts=document.getElementById(tsid);this.ft=document.getElementById(ftid);this.total=6;this.filled=3;this.cells=[];this.rebuild();this.draw();}
+            rebuild(){this.cells=Array(this.total).fill(false);for(let i=0;i<this.filled;i++)this.cells[i]=true;}
+            draw(){this.c.width=200;this.c.height=200;this.ctx.clearRect(0,0,200,200);let cols=3,rows=2;if(this.total===4){cols=2;rows=2;}else if(this.total===6){cols=3;rows=2;}else if(this.total===8){cols=4;rows=2;}else if(this.total===12){cols=4;rows=3;}const cw=200/cols,ch=200/rows;for(let i=0;i<this.total;i++){const r=Math.floor(i/cols),c=i%cols;this.ctx.fillStyle=this.cells[i]?'#a5673f':'#475569';this.ctx.fillRect(c*cw,r*ch,cw-1,ch-1);}this.filled=this.cells.filter(v=>v).length;this.fs.innerText=this.filled;this.ts.innerText=this.total;this.ft.innerText=`${this.filled}/${this.total}`;}
+            setT(n){this.total=Math.max(1,n);if(this.filled>this.total)this.filled=this.total;this.rebuild();this.draw();}
+            setF(n){this.filled=Math.min(this.total,Math.max(0,n));this.rebuild();this.draw();}
+            click(cx,cy,rect){const sx=200/rect.width,sy=200/rect.height;const mx=(cx-rect.left)*sx,my=(cy-rect.top)*sy;let cols=3,rows=2;if(this.total===4){cols=2;rows=2;}else if(this.total===6){cols=3;rows=2;}else if(this.total===8){cols=4;rows=2;}else if(this.total===12){cols=4;rows=3;}const cw=200/cols,ch=200/rows;const col=Math.floor(mx/cw),row=Math.floor(my/ch);const idx=row*cols+col;if(idx>=0&&idx<this.total){this.cells[idx]=!this.cells[idx];this.filled=this.cells.filter(v=>v).length;this.draw();}}
+        }
+        const circle=new CircleF('multiCircleCanvas','multiCircleFilled','multiCircleTotal','multiCircleFraction');
+        const choco=new ChocoF('multiChocolateCanvas','multiChocoFilled','multiChocoTotal','multiChocoFraction');
+        let op='multiply';
+        function attachC(p,id){const c=document.getElementById(id);const h=e=>{let cx,cy;if(e.touches){cx=e.touches[0].clientX;cy=e.touches[0].clientY;e.preventDefault();}else{cx=e.clientX;cy=e.clientY;}p.click(cx,cy,c.getBoundingClientRect());refreshM();};c.addEventListener('click',h);c.addEventListener('touchstart',e=>{e.preventDefault();h(e.touches[0]);});}
+        attachC(circle,'multiCircleCanvas');attachC(choco,'multiChocolateCanvas');
+        document.getElementById('multiCircleInc').addEventListener('click',()=>{circle.setF(circle.filled+1);refreshM();});
+        document.getElementById('multiCircleDec').addEventListener('click',()=>{circle.setF(circle.filled-1);refreshM();});
+        document.getElementById('multiChocoInc').addEventListener('click',()=>{choco.setF(choco.filled+1);refreshM();});
+        document.getElementById('multiChocoDec').addEventListener('click',()=>{choco.setF(choco.filled-1);refreshM();});
+        document.querySelectorAll('#multiCirclePresets .multi-preset-btn').forEach(b=>b.addEventListener('click',()=>{circle.setS(parseInt(b.dataset.slices));document.querySelectorAll('#multiCirclePresets .multi-preset-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshM();}));
+        document.querySelectorAll('#multiChocoPresets .multi-preset-btn').forEach(b=>b.addEventListener('click',()=>{choco.setT(parseInt(b.dataset.cells));document.querySelectorAll('#multiChocoPresets .multi-preset-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');refreshM();}));
+        document.getElementById('multiOpMultiply').addEventListener('click',()=>{op='multiply';document.getElementById('multiOpMultiply').classList.add('active');document.getElementById('multiOpDivide').classList.remove('active');refreshM();});
+        document.getElementById('multiOpDivide').addEventListener('click',()=>{op='divide';document.getElementById('multiOpDivide').classList.add('active');document.getElementById('multiOpMultiply').classList.remove('active');refreshM();});
+        document.getElementById('multiOpMultiply').classList.add('active');
+        function refreshM(){const a=circle.filled,b=circle.slices,c=choco.filled,d=choco.total;let rn,rd,comment='';if(op==='multiply'){rn=a*c;rd=b*d;comment=`✖️ ${a}/${b} × ${c}/${d} = ${rn}/${rd}`;}else{rn=a*d;rd=b*c;comment=`➗ ${a}/${b} ÷ ${c}/${d} = ${rn}/${rd}`;}document.getElementById('multiResultNumer').innerText=rn;document.getElementById('multiResultDenom').innerText=rd;document.getElementById('multiResultComment').innerHTML=comment;}
+        document.getElementById('multiResetBtn5').addEventListener('click',()=>{circle.setS(4);circle.setF(2);choco.setT(6);choco.setF(3);op='multiply';document.getElementById('multiOpMultiply').classList.add('active');document.getElementById('multiOpDivide').classList.remove('active');refreshM();});
+        refreshM();
+    }
+
+    function initCatGame() {
+        if (catGameInitialized) return;
+        catGameInitialized = true;
+        const TARGET = 5;
+        const canvas = document.getElementById('catGameCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let cw = 1000, ch = 600;
+        canvas.width = cw; canvas.height = ch;
+        let score = 0, running = true, victory = false, question = null, foods = [], cooldown = false;
+        const cat = { x: cw/2, y: ch-85, r: 34 };
+        let mx = cat.x, my = cat.y;
+
+        function gcd(a,b) { a=Math.abs(a); b=Math.abs(b); return b===0?a:gcd(b,a%b); }
+        function randFrac() { let d=Math.floor(Math.random()*6)+2,n=Math.floor(Math.random()*Math.min(d*2,12))+1;let g=gcd(n,d);n/=g;d/=g;return{n,d,str:`${n}/${d}`}; }
+        function addFrac(f1,f2){let n=f1.n*f2.d+f2.n*f1.d,d=f1.d*f2.d,g=gcd(n,d);return{n:n/g,d:d/g,str:`${n/g}/${d/g}`};}
+        function genQ(){const a=randFrac(),b=randFrac(),correct=addFrac(a,b);let distractors=new Set([correct.str]);while(distractors.size<3){let dn=Math.floor(Math.random()*12)+1,dd=Math.floor(Math.random()*8)+2;let gv=gcd(dn,dd);dn/=gv;dd/=gv;if(`${dn}/${dd}`!==correct.str)distractors.add(`${dn}/${dd}`);}let opts=Array.from(distractors);for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}question={text:`${a.str} + ${b.str}`,correct:correct.str,pool:opts};document.getElementById('catQuestionText').innerHTML=`${renderFractionWithLine(a.n,a.d)} + ${renderFractionWithLine(b.n,b.d)}`;}
+        function spawn(){foods=[];const ans=question.pool;const sy=ch*0.25,sx=cw*0.18,ex=cw*0.82,step=(ex-sx)/(ans.length-1);for(let i=0;i<ans.length;i++){foods.push({x:sx+i*step,y:sy+(i%2)*30,r:70,ans:ans[i],active:true,wob:Math.random()*Math.PI*2});}}
+        function teleport(){cat.x=cw/2;cat.y=ch-85;mx=cat.x;my=cat.y;}
+        function updateUI(){document.getElementById('catScoreValue').innerText=score;document.getElementById('catTargetCount').innerText=`${score}/${TARGET}`;}
+        function check(){if(!running||victory||cooldown)return;for(let f of foods){if(!f.active)continue;if(Math.hypot(cat.x-f.x,cat.y-f.y)<cat.r+f.r){cooldown=true;setTimeout(()=>cooldown=false,350);if(f.ans===question.correct){f.active=false;score++;updateUI();if(score>=TARGET){victory=true;running=false;document.getElementById('catMessage').innerText='🏆 ПОБЕДА! Нажми «НОВАЯ ИГРА» 🏆';return;}genQ();spawn();teleport();return;}else{running=false;document.getElementById('catMessage').innerText='😿 Ой! Игра окончена. Нажми «НОВАЯ ИГРА»';return;}}}}
+        function updateCat(){if(!running)return;let tx=Math.min(cw-cat.r-5,Math.max(cat.r+5,mx)),ty=Math.min(ch-cat.r-15,Math.max(cat.r+15,my));cat.x+=(tx-cat.x)*0.34;cat.y+=(ty-cat.y)*0.34;}
+        function drawCat(){ctx.save();ctx.translate(cat.x,cat.y);ctx.beginPath();ctx.ellipse(0,0,30,38,0,0,Math.PI*2);ctx.fillStyle="#F4A261";ctx.fill();ctx.fillStyle="#E76F51";ctx.beginPath();ctx.ellipse(-10,-10,10,12,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(10,-10,10,12,0,0,Math.PI*2);ctx.fill();ctx.fillStyle="#2E241F";ctx.beginPath();ctx.arc(-7,-2,2.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(7,-2,2.5,0,Math.PI*2);ctx.fill();ctx.restore();}
+        function drawFood(x,y,r,ans,w){const fy=y+Math.sin(Date.now()*0.003+w)*6;ctx.save();ctx.beginPath();ctx.arc(x,fy,r-10,0,Math.PI*2);ctx.fillStyle="#FFF7E8";ctx.fill();ctx.font=`bold ${Math.min(40,r-16)}px monospace`;ctx.fillStyle="#2d2418";ctx.fillText(ans,x-34,fy+12);ctx.restore();}
+        function frame(){if(running&&!victory){updateCat();check();}ctx.fillStyle="#0f0f1e";ctx.fillRect(0,0,cw,ch);for(let f of foods)if(f.active)drawFood(f.x,f.y,f.r,f.ans,f.wob);drawCat();requestAnimationFrame(frame);}
+        function move(e){e.preventDefault();const rect=canvas.getBoundingClientRect();const sx=cw/rect.width,sy=ch/rect.height;let cx,cy;if(e.touches){cx=e.touches[0].clientX;cy=e.touches[0].clientY;}else{cx=e.clientX;cy=e.clientY;}mx=Math.min(cw,Math.max(0,(cx-rect.left)*sx));my=Math.min(ch,Math.max(0,(cy-rect.top)*sy));}
+        function restart(){running=true;victory=false;score=0;cooldown=false;updateUI();teleport();genQ();spawn();document.getElementById('catMessage').innerText='🐾 Води пальцем — кот бежит за тобой! Собери 5 облаков 🍗';}
+        canvas.addEventListener('mousemove',move);canvas.addEventListener('touchmove',move,{passive:false});canvas.addEventListener('touchstart',move,{passive:false});
+        document.getElementById('catRestartBtn').addEventListener('click',restart);
+        restart();frame();
+    }
+
+    // === РЕНДЕРЫ ===
+    function renderHome() {
+        let done = Object.values(sectionProgress).filter(v=>v).length;
+        return `<div class="section-card"><div class="app-title">🐱 Веселые Дроби</div><div class="cat-header"><div class="cat-icon">🐱</div><div class="welcome-title">Привет! Учим дроби весело!</div></div><div class="progress-area"><div class="progress-label"><span>🏆 Прогресс</span><span>${done}/7</span></div><div class="progress-bar-bg"><div class="progress-fill" style="width:${(done/7)*100}%"></div></div></div><div class="sections-grid">${SECTIONS_DATA.map(s=>`<button class="section-btn ${sectionProgress[s.id]?'completed':''}" data-id="${s.id}">${s.title}</button>`).join('')}</div></div>`;
+    }
+
+    function renderRegularSection(s) {
+        let ans = answersStorage[s.id] || {};
+        let tasksHtml = s.tasks.map((t,i)=>{
+            if(t.type==='choice'){
+                let sel=ans[i]||'';
+                return `<div class="task-card"><div class="quiz-question">${t.text}</div><div class="options">${t.options.map((o,j)=>`<button class="opt-btn ${sel===o?'selected':''}" data-task="${i}" data-val="${o}">${o}</button>`).join('')}</div><button class="check-btn check-choice" data-task="${i}">Проверить</button><div class="feedback" id="fb_${s.id}_${i}" style="display:none;"></div></div>`;
+            }else{
+                let uv=ans[i]||'',ec=(sectionProgress[s.id]&&ans[i]===t.correct)?'correct-input':(ans[i]&&ans[i]!==t.correct)?'wrong-input':'';
+                return `<div class="task-card"><div class="quiz-question">${t.text}</div><input class="input-field ${ec}" data-task="${i}" placeholder="${t.placeholder}" value="${uv}"><button class="check-btn check-input" data-task="${i}">Проверить</button><div class="feedback" id="fb_${s.id}_${i}" style="display:none;"></div></div>`;
+            }
+        }).join('');
+        return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2><div class="tabs"><button class="tab-btn active" data-tab="theory">📖 Теория</button><button class="tab-btn" data-tab="practice">✍️ Практика</button></div><div class="theory-block active-tab" id="theoryTab"><div class="block-title">📘 Теория</div>${THEORY_CONTENT[s.theoryKey]}</div><div class="practice-block" id="practiceTab"><div class="block-title">✍️ Практика (5 заданий)</div>${tasksHtml}${sectionProgress[s.id]?'<div style="text-align:center;color:#6ee7b7;margin-top:12px;">⭐ Раздел пройден!</div>':''}</div><button class="back-home-btn" id="backHomeBtn">🏠 В главное меню</button></div>`;
+    }
+
+    function renderQuiz() {
+        const q = QUIZ_QUESTIONS[quizCurrentIndex], sel = quizAnswers[quizCurrentIndex], answered = sel!==undefined;
+        let opts = q.options.map((o,i)=>{
+            let cl='',ic='';
+            if(answered){if(i===q.correct){cl='selected-correct';ic='✅';}else if(i===sel){cl='selected-wrong';ic='❌';}else{cl='disabled';}}
+            return `<div class="quiz-option ${cl}" data-opt="${i}"><span>${o}</span><span>${ic}</span></div>`;
+        }).join('');
+        return `<div class="quiz-section"><div class="quiz-header"><span class="quiz-title">📖 Викторина</span><span class="quiz-counter">${quizCurrentIndex+1}/${QUIZ_QUESTIONS.length}</span></div><div class="quiz-question-text">${q.question}</div><div class="quiz-options">${opts}</div><button class="quiz-next-btn" id="quizNextBtn" ${!answered?'disabled':''}>${quizCurrentIndex===QUIZ_QUESTIONS.length-1?'🏆 Завершить':'➡️ Далее'}</button></div>`;
+    }
+
+    function renderCardGame() {
+        let cardsHtml = CARDS_DATA.map((card, i) => {
+            const removed = gameCardsState[i]?.removed;
+            return `
+            <div class="game-card ${removed ? 'removed' : ''}" data-card-idx="${i}">
+                <div class="game-card-number">${i + 1}</div>
+                <div class="game-card-expression">${getRichMathExpression(i)}</div>
+                <div class="game-card-row">
+                    <input type="text" class="game-card-input" id="cardInput_${i}" placeholder="Твой ответ" ${removed ? 'disabled' : ''}>
+                    <button class="game-card-check" data-idx="${i}" ${removed ? 'disabled' : ''}>OK</button>
+                </div>
+                <div class="game-card-hint" id="cardHint_${i}">${removed ? '✅ Решено!' : '💡 Введи ответ'}</div>
+            </div>`;
+        }).join('');
+
+        const solved = gameCardsState.filter(c => c?.removed).length;
+        return `
+        <div>
+            <div style="text-align:center;margin-bottom:16px;">
+                <h3 style="color:#fbbf24;font-size:1.2rem;">🃏 Карточная игра</h3>
+                <p style="color:#94a3b8;font-size:0.8rem;">Реши все 8 примеров</p>
+            </div>
+            <div class="cards-list">${cardsHtml}</div>
+            <div class="game-status-bar">
+                <span class="game-score">🏆 Решено: ${solved}/${CARDS_DATA.length}</span>
+                <button class="game-reset-btn" id="resetGameBtn">🔄 Сбросить всё</button>
+            </div>
+        </div>`;
+    }
+
+    function renderGameSection(s) {
+        if(!quizCompleted) {
+            return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2>
+                <div class="tabs"><button class="tab-btn active" data-tab="rules">📖 Правила</button><button class="tab-btn" data-tab="quiz">🎮 Викторина</button><button class="tab-btn" data-tab="cards">🃏 Карточная игра</button></div>
+                <div class="theory-block active-tab" id="rulesTab"><div class="block-title">📘 Правила</div>${THEORY_CONTENT[s.theoryKey]}</div>
+                <div class="practice-block" id="quizTab" style="display:none;"><div class="block-title">🎮 Викторина</div><div id="quizContainer">${renderQuiz()}</div></div>
+                <div class="practice-block" id="cardsTab" style="display:none;"><div class="block-title">🃏 Карточная игра</div><div id="cardsContainer">${renderCardGame()}</div></div>
+                <button class="back-home-btn" id="backHomeBtn">🏠 В главное меню</button></div>`;
+        } else {
+            return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2>
+                <div class="tabs"><button class="tab-btn active" data-tab="rules">📖 Правила</button><button class="tab-btn" data-tab="cards">🃏 Карточная игра</button></div>
+                <div class="theory-block active-tab" id="rulesTab"><div class="block-title">📘 Правила</div>${THEORY_CONTENT[s.theoryKey]}</div>
+                <div class="practice-block" id="cardsTab" style="display:none;"><div class="block-title">🃏 Карточная игра</div><div id="cardsContainer">${renderCardGame()}</div></div>
+                <button class="back-home-btn" id="backHomeBtn">🏠 В главное меню</button></div>`;
+        }
+    }
+
+    function renderVisualSection4(s){return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2><div class="tabs"><button class="tab-btn active" data-tab="theory">📖 Теория</button><button class="tab-btn" data-tab="visual">🍕 Наглядно</button><button class="tab-btn" data-tab="practice">✍️ Практика</button></div><div class="theory-block active-tab" id="theoryTab"><div class="block-title">📘 Теория</div>${THEORY_CONTENT[s.theoryKey]}</div><div class="visual-block" id="visualTab"><div class="block-title">🍕 Сложение и вычитание с пиццами</div><div class="task-card"><div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:16px;"><div class="visual-pizza-box"><div style="font-weight:700;margin-bottom:8px;">🍕 Пицца 1</div><canvas id="visualPizza1Canvas" class="visual-pizza-canvas" width="200" height="200" style="width:120px;height:120px;"></canvas><div style="display:flex;justify-content:center;gap:8px;align-items:center;margin-top:8px;"><button class="step-btn" id="visualPizza1Dec">−</button><span id="visualPizza1Count" style="font-weight:800;color:#f1f5f9;">2</span><button class="step-btn" id="visualPizza1Inc">+</button></div><div style="font-size:0.75rem;margin-top:4px;color:#94a3b8;">частей: <span id="visualPizza1Total">4</span></div><div style="display:flex;gap:4px;justify-content:center;margin-top:6px;"><button class="visual-slice-preset active" data-pizza="1" data-slices="2">2</button><button class="visual-slice-preset" data-pizza="1" data-slices="4">4</button><button class="visual-slice-preset" data-pizza="1" data-slices="6">6</button><button class="visual-slice-preset" data-pizza="1" data-slices="8">8</button></div></div><div class="visual-pizza-box"><div style="font-weight:700;margin-bottom:8px;">🍕 Пицца 2</div><canvas id="visualPizza2Canvas" class="visual-pizza-canvas" width="200" height="200" style="width:120px;height:120px;"></canvas><div style="display:flex;justify-content:center;gap:8px;align-items:center;margin-top:8px;"><button class="step-btn" id="visualPizza2Dec">−</button><span id="visualPizza2Count" style="font-weight:800;color:#f1f5f9;">1</span><button class="step-btn" id="visualPizza2Inc">+</button></div><div style="font-size:0.75rem;margin-top:4px;color:#94a3b8;">частей: <span id="visualPizza2Total">4</span></div><div style="display:flex;gap:4px;justify-content:center;margin-top:6px;"><button class="visual-slice-preset active" data-pizza="2" data-slices="2">2</button><button class="visual-slice-preset" data-pizza="2" data-slices="4">4</button><button class="visual-slice-preset" data-pizza="2" data-slices="6">6</button><button class="visual-slice-preset" data-pizza="2" data-slices="8">8</button></div></div></div><div style="display:flex;justify-content:center;gap:12px;margin:14px 0;"><button class="visual-op-btn" id="visualOpAdd">➕ Сложение</button><button class="visual-op-btn" id="visualOpSub">➖ Вычитание</button></div><div style="text-align:center;margin:14px 0;"><div class="visual-fraction-display"><span class="visual-fraction-number" id="visualResultNumer">0</span><div class="visual-fraction-line"></div><span class="visual-fraction-denom" id="visualResultDenom">1</span></div></div><div id="visualResultComment" style="text-align:center;margin:8px 0;color:#cbd5e1;"></div><button id="visualResetBtn4" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;padding:8px 16px;border-radius:20px;cursor:pointer;width:100%;">⟳ Сбросить</button><div class="visual-hint">💡 Нажимай на кусочки пиццы, чтобы менять числитель. Результат — неправильная дробь для наглядности.</div></div></div><div class="practice-block" id="practiceTab"><div class="block-title">✍️ Практика</div>${s.tasks.map((t,i)=>{let ans=answersStorage[s.id]||{};let sel=ans[i]||'';let disp=t.options;if(t.rawOptions)disp=t.options.map((o,j)=>t.rawOptions[j]&&t.rawOptions[j].includes('/')?frac(...t.rawOptions[j].split('/')):o);return`<div class="task-card"><div class="quiz-question">${t.text}</div><div class="options">${disp.map((o,j)=>`<button class="opt-btn ${sel===t.rawOptions?.[j]||sel===o?'selected':''}" data-task="${i}" data-val="${t.rawOptions?.[j]||t.options[j]}">${o}</button>`).join('')}</div><button class="check-btn check-choice" data-task="${i}">Проверить</button><div class="feedback" id="fb_${s.id}_${i}" style="display:none;"></div></div>`;}).join('')}${sectionProgress[s.id]?'<div style="text-align:center;color:#6ee7b7;margin-top:12px;">⭐ Раздел пройден!</div>':''}</div><button class="back-home-btn" id="backHomeBtn">🏠 В главное меню</button></div>`;}
+    
+    function renderVisualSection5(s){return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2><div class="tabs"><button class="tab-btn active" data-tab="theory">📖 Теория</button><button class="tab-btn" data-tab="visual">🍕🍫 Наглядно</button><button class="tab-btn" data-tab="practice">✍️ Практика</button></div><div class="theory-block active-tab" id="theoryTab"><div class="block-title">📘 Теория</div>${THEORY_CONTENT[s.theoryKey]}</div><div class="visual-block" id="visualTab"><div class="block-title">✖️ Умножение и деление</div><div class="task-card"><div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:16px;"><div class="multi-model-box"><div style="font-weight:700;">🍕 Пицца A</div><canvas id="multiCircleCanvas" class="multi-model-canvas multi-circle-canvas" width="200" height="200" style="width:120px;height:120px;"></canvas><div style="display:flex;justify-content:center;gap:8px;align-items:center;margin-top:6px;"><button class="step-btn" id="multiCircleDec">−</button><span id="multiCircleFilled" style="font-weight:800;color:#f1f5f9;">2</span><button class="step-btn" id="multiCircleInc">+</button></div><div style="font-size:0.75rem;color:#94a3b8;">частей: <span id="multiCircleTotal">4</span></div><div id="multiCirclePresets" style="display:flex;gap:4px;justify-content:center;margin-top:4px;"><button data-slices="2" class="multi-preset-btn">2</button><button data-slices="4" class="multi-preset-btn active">4</button><button data-slices="6" class="multi-preset-btn">6</button><button data-slices="8" class="multi-preset-btn">8</button></div><div style="font-size:0.8rem;margin-top:4px;color:#94a3b8;">Дробь: <strong id="multiCircleFraction" style="color:#fbbf24;">2/4</strong></div></div><div class="multi-model-box"><div style="font-weight:700;">🍫 Шоколадка B</div><canvas id="multiChocolateCanvas" class="multi-model-canvas" width="200" height="200" style="width:120px;height:120px;"></canvas><div style="display:flex;justify-content:center;gap:8px;align-items:center;margin-top:6px;"><button class="step-btn" id="multiChocoDec">−</button><span id="multiChocoFilled" style="font-weight:800;color:#f1f5f9;">3</span><button class="step-btn" id="multiChocoInc">+</button></div><div style="font-size:0.75rem;color:#94a3b8;">долек: <span id="multiChocoTotal">6</span></div><div id="multiChocoPresets" style="display:flex;gap:4px;justify-content:center;margin-top:4px;"><button data-cells="4" class="multi-preset-btn">4</button><button data-cells="6" class="multi-preset-btn active">6</button><button data-cells="8" class="multi-preset-btn">8</button><button data-cells="12" class="multi-preset-btn">12</button></div><div style="font-size:0.8rem;margin-top:4px;color:#94a3b8;">Дробь: <strong id="multiChocoFraction" style="color:#fbbf24;">3/6</strong></div></div></div><div style="display:flex;justify-content:center;gap:12px;margin:14px 0;"><button class="multi-op-btn" id="multiOpMultiply">✖️ Умножение</button><button class="multi-op-btn" id="multiOpDivide">➗ Деление</button></div><div style="text-align:center;margin:14px 0;"><div class="multi-fraction-display"><span class="multi-fraction-number" id="multiResultNumer">0</span><div class="multi-fraction-line"></div><span class="multi-fraction-denom" id="multiResultDenom">1</span></div></div><div id="multiResultComment" style="text-align:center;margin:8px 0;color:#cbd5e1;"></div><button id="multiResetBtn5" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#cbd5e1;padding:8px 16px;border-radius:20px;cursor:pointer;width:100%;">⟳ Сбросить</button><div class="multi-hint">💡 Умножение: числитель×числитель, знаменатель×знаменатель. Деление: умножаем на перевёрнутую.</div></div></div><div class="practice-block" id="practiceTab"><div class="block-title">✍️ Практика</div>${s.tasks.map((t,i)=>{let ans=answersStorage[s.id]||{};let sel=ans[i]||'';let disp=t.options;if(t.rawOptions)disp=t.options.map((o,j)=>t.rawOptions[j]&&t.rawOptions[j].includes('/')?frac(...t.rawOptions[j].split('/')):o);return`<div class="task-card"><div class="quiz-question">${t.text}</div><div class="options">${disp.map((o,j)=>`<button class="opt-btn ${sel===t.rawOptions?.[j]||sel===o?'selected':''}" data-task="${i}" data-val="${t.rawOptions?.[j]||t.options[j]}">${o}</button>`).join('')}</div><button class="check-btn check-choice" data-task="${i}">Проверить</button><div class="feedback" id="fb_${s.id}_${i}" style="display:none;"></div></div>`;}).join('')}${sectionProgress[s.id]?'<div style="text-align:center;color:#6ee7b7;margin-top:12px;">⭐ Раздел пройден!</div>':''}</div><button class="back-home-btn" id="backHomeBtn">🏠 В главное меню</button></div>`;}
+
+    function renderSectionById(id) {
+        const s = SECTIONS_DATA.find(x=>x.id===id);
+        if(!s) return '';
+        if(s.isInteractive) return `
+            <div class="section-card">
+                <h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2>
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="theory">📖 Теория</button>
+                    <button class="tab-btn" data-tab="practice">✍️ Практика</button>
+                </div>
+                <div class="theory-block active-tab" id="theoryTab">
+                    <div class="block-title">📘 Теория</div>
+                    ${THEORY_CONTENT[s.theoryKey]}
+                </div>
+                <div class="practice-block" id="practiceTab">
+                    <div class="block-title">✍️ Наглядная практика</div>
+                    
+                    <!-- 🍕 ЗАДАНИЕ 1: ПИЦЦА -->
+                    <div class="task-card">
+                        <div class="task-title">🍕 Задание 1 · Пицца</div>
+                        <div style="color:#cbd5e1;margin-bottom:12px;text-align:center;">Нажимай на кусочки, чтобы закрасить. Дробь показывается автоматически.</div>
+                        <canvas id="pizzaCanvas" width="300" height="300" style="width:150px;height:150px;border-radius:50%;display:block;margin:0 auto;cursor:pointer;"></canvas>
+                        <div class="controls" id="pizzaPresets" style="display:flex;justify-content:center;gap:8px;margin:12px 0;"></div>
+                        <div style="display:flex;justify-content:center;gap:12px;align-items:center;">
+                            <button class="step-btn" id="pizzaDec">−</button>
+                            <span id="pizzaSelectedCount" style="font-weight:800;font-size:1.3rem;color:#f1f5f9;">0</span>
+                            <button class="step-btn" id="pizzaInc">+</button>
+                        </div>
+                        <div style="text-align:center;margin-top:8px;color:#94a3b8;">Закрашено <strong id="pizzaSelectedLabel" style="color:#fbbf24;">0</strong> из <strong id="pizzaTotalLabel" style="color:#fbbf24;">4</strong></div>
+                        <div class="fraction-display" style="margin:14px auto;">
+                            <span class="fraction-number" id="pizzaNumerDisplay">0</span>
+                            <div class="fraction-line"></div>
+                            <span class="fraction-denom" id="pizzaDenomDisplay">4</span>
+                        </div>
+                    </div>
+
+                    <!-- ⚪ ЗАДАНИЕ 2: КРУГ -->
+                    <div class="task-card" style="margin-top:24px;">
+                        <div class="task-title">⚪ Задание 2 · Круговая диаграмма</div>
+                        <div style="color:#cbd5e1;margin-bottom:12px;text-align:center;">Двигай ползунки — дробь обновляется сама.</div>
+                        <canvas id="circleCanvas" class="model-canvas" width="200" height="200" style="width:160px;height:160px;display:block;margin:0 auto;border-radius:50%;"></canvas>
+                        <div style="margin:16px 0 8px;">
+                            <label style="color:#cbd5e1;display:block;">🔘 Частей: <span id="circlePartsVal">4</span></label>
+                            <input type="range" id="circlePartsSlider" min="1" max="12" value="4" step="1" style="width:100%">
+                            <label style="color:#cbd5e1;display:block;">🎨 Закрашено: <span id="circleFilledVal">2</span></label>
+                            <input type="range" id="circleFilledSlider" min="0" max="4" value="2" step="1" style="width:100%">
+                        </div>
+                        <div style="text-align:center;margin-top:12px;">
+                            <span style="color:#cbd5e1;margin-right:8px;">Дробь:</span>
+                            <span id="circleFractionDisplay" style="display:inline-block;">${renderFractionWithLine(2,4)}</span>
+                        </div>
+                    </div>
+
+                    <!-- 🧩 ЗАДАНИЕ 3: КВАДРАТ -->
+                    <div class="task-card" style="margin-top:24px;">
+                        <div class="task-title">🧩 Задание 3 · Квадратная плитка</div>
+                        <div style="color:#cbd5e1;margin-bottom:12px;text-align:center;">Меняй сетку и закрашивай клетки ползунками.</div>
+                        <canvas id="gridCanvas" class="model-canvas" width="200" height="200" style="width:160px;height:160px;display:block;margin:0 auto;"></canvas>
+                        <div style="margin:16px 0 8px;">
+                            <label style="color:#cbd5e1;display:block;">📊 Столбцов: <span id="gridColsVal">3</span></label>
+                            <input type="range" id="gridColsSlider" min="1" max="6" value="3" step="1" style="width:100%">
+                            <label style="color:#cbd5e1;display:block;">📈 Строк: <span id="gridRowsVal">2</span></label>
+                            <input type="range" id="gridRowsSlider" min="1" max="6" value="2" step="1" style="width:100%">
+                            <label style="color:#cbd5e1;display:block;">🎨 Закрашено: <span id="gridFilledVal">3</span></label>
+                            <input type="range" id="gridFilledSlider" min="0" max="6" value="3" step="1" style="width:100%">
+                            <div style="color:#94a3b8;font-size:0.75rem;">Всего клеток = столбцы × строки</div>
+                        </div>
+                        <div style="text-align:center;margin-top:12px;">
+                            <span style="color:#cbd5e1;margin-right:8px;">Дробь:</span>
+                            <span id="gridFractionDisplay" style="display:inline-block;">${renderFractionWithLine(3,6)}</span>
+                        </div>
+                    </div>
+
+                    <button class="check-btn" id="completeInteractiveBtn" style="background:#10b981;">✅ Завершить раздел</button>
+                </div>
+                <button class="back-home-btn" id="backHomeBtn">🏠 Назад</button>
+            </div>`;
+        if(s.isFlight) return `<div class="section-card"><h2 style="color:#fbbf24;margin-bottom:14px;">${s.title}</h2><div class="tabs"><button class="tab-btn active" data-tab="theory">📖 Теория</button><button class="tab-btn" data-tab="game">🐱 Игра</button></div><div class="theory-block active-tab" id="theoryTab"><div class="block-title">📘 Правила</div>${THEORY_CONTENT[s.theoryKey]}</div><div class="practice-block" id="gameTab" style="display:none;"><div class="block-title">🐱 Кот-математик</div><canvas id="catGameCanvas" style="width:100%;border-radius:20px;"></canvas><div style="display:flex;justify-content:center;gap:16px;margin:10px 0;"><span style="background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:20px;color:#fbbf24;">🐟 <span id="catScoreValue">0</span></span><span style="background:rgba(0,0,0,0.5);padding:6px 14px;border-radius:20px;color:#fbbf24;">🎯 <span id="catTargetCount">0/5</span></span></div><div id="catQuestionText" style="text-align:center;font-weight:800;color:#fbbf24;margin:8px 0;"></div><button id="catRestartBtn" style="background:#f59e0b;border:none;padding:10px 20px;border-radius:20px;font-weight:700;cursor:pointer;width:100%;">😺 НОВАЯ ИГРА</button><div id="catMessage" style="text-align:center;font-size:0.75rem;color:#94a3b8;margin-top:8px;"></div></div><button class="check-btn" id="completeCatGameBtn" style="background:#10b981;">✅ Завершить (5 очков)</button><button class="back-home-btn" id="backHomeBtn">🏠 Назад</button></div>`;
+        if(s.isGame) return renderGameSection(s);
+        if(s.hasVisual4) return renderVisualSection4(s);
+        if(s.hasVisual5) return renderVisualSection5(s);
+        return renderRegularSection(s);
+    }
+
+    function initCardGame() { gameCardsState = CARDS_DATA.map((_,i)=>({idx:i,removed:false,flipped:false})); }
+
+    function updateGameScore() {
+        const solved = gameCardsState.filter(c=>c.removed).length;
+        const el = document.querySelector('.game-score');
+        if(el) el.innerHTML = `🏆 Решено: ${solved}/${CARDS_DATA.length}`;
+        if(solved===CARDS_DATA.length && !sectionProgress[6]) { sectionProgress[6]=true; updateProgress(); setTimeout(()=>alert("🎉 Все карточки решены!"),100); }
+    }
+
+    function attachCardEvents() {
+        document.querySelectorAll('.game-card-check').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idx = parseInt(btn.dataset.idx);
+                const input = document.getElementById(`cardInput_${idx}`);
+                const hint = document.getElementById(`cardHint_${idx}`);
+                const ans = input.value.trim();
+
+                if (gameCardsState[idx].removed) {
+                    hint.innerText = '✅ Уже решено!';
+                    hint.className = 'game-card-hint correct';
+                    return;
+                }
+                if (!ans) {
+                    hint.innerText = '📝 Введи ответ!';
+                    hint.className = 'game-card-hint wrong';
+                    return;
+                }
+                if (isAnswerCorrectForCard(idx, ans)) {
+                    gameCardsState[idx].removed = true;
+                    const card = document.querySelector(`.game-card[data-card-idx="${idx}"]`);
+                    if (card) card.classList.add('removed');
+                    input.disabled = true;
+                    btn.disabled = true;
+                    hint.innerText = `✅ ${randMsg(PRAISE)}`;
+                    hint.className = 'game-card-hint correct';
+                    updateGameScore();
+                } else {
+                    hint.innerText = `❌ ${randMsg(ENCOURAGE)}`;
+                    hint.className = 'game-card-hint wrong';
+                    input.classList.add('wrong-input');
+                    setTimeout(() => input.classList.remove('wrong-input'), 1500);
+                }
+            });
+        });
+
+        document.getElementById('resetGameBtn')?.addEventListener('click', () => {
+            initCardGame();
+            const container = document.getElementById('cardsContainer');
+            if (container) container.innerHTML = renderCardGame();
+            attachCardEvents();
+        });
+    }
+
+    function attachQuizEvents() {
+        document.querySelectorAll('.quiz-option').forEach(o=>o.addEventListener('click',()=>{
+            if(quizAnswers[quizCurrentIndex]!==undefined) return;
+            const si=parseInt(o.dataset.opt), correct=si===QUIZ_QUESTIONS[quizCurrentIndex].correct;
+            quizAnswers[quizCurrentIndex]=si;
+            const p=o.closest('.quiz-options'); p.querySelectorAll('.quiz-option').forEach(x=>x.classList.add('disabled'));
+            if(correct) o.classList.add('selected-correct');
+            else{o.classList.add('selected-wrong'); p.querySelector(`[data-opt="${QUIZ_QUESTIONS[quizCurrentIndex].correct}"]`)?.classList.add('selected-correct');}
+            document.getElementById('quizNextBtn').disabled=false;
+        }));
+        document.getElementById('quizNextBtn')?.addEventListener('click',()=>{
+            if(quizCurrentIndex<QUIZ_QUESTIONS.length-1){
+                quizCurrentIndex++;
+                const container = document.getElementById('quizContainer');
+                if(container) container.innerHTML = renderQuiz();
+                attachQuizEvents();
+            } else {
+                alert('🎉 Викторина пройдена! Теперь карточная игра!');
+                quizCompleted=true;
+                mountApp();
+            }
+        });
+    }
+
+    function attachEvents(s) {
+        document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',e=>{
+            document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+            b.classList.add('active');
+            document.querySelectorAll('.theory-block,.practice-block,.visual-block').forEach(x=>x.style.display='none');
+            const t=b.dataset.tab;
+            if(t==='theory'||t==='rules') {
+                const tab = document.getElementById('theoryTab') || document.getElementById('rulesTab');
+                if(tab) tab.style.display='block';
+            }
+            else if(t==='practice') document.getElementById('practiceTab').style.display='block';
+            else if(t==='quiz'){
+                document.getElementById('quizTab').style.display='block';
+                attachQuizEvents();
+            }
+            else if(t==='cards'){
+                document.getElementById('cardsTab').style.display='block';
+                initCardGame(); attachCardEvents();
+            }
+            else if(t==='game'){
+                document.getElementById('gameTab').style.display='block';
+                if(s.isFlight) initCatGame();
+            }
+            else if(t==='visual'){
+                document.getElementById('visualTab').style.display='block';
+                if(s.id===4) initVisualSection4();
+                if(s.id===5) initVisualSection5();
+            }
+        }));
+        if(s.isInteractive){
+            initInteractiveSection();
+            document.getElementById('completeInteractiveBtn')?.addEventListener('click',()=>{sectionProgress[s.id]=true;updateProgress();alert('🎉 Раздел пройден!');currentScreen='home';mountApp();});
+        }
+        else if(s.isGame){
+            initCardGame();
+            attachQuizEvents();
+        }
+        else if(s.isFlight){
+            document.getElementById('completeCatGameBtn')?.addEventListener('click',()=>{
+                const sc=parseInt(document.getElementById('catScoreValue')?.innerText||0);
+                if(sc>=5){sectionProgress[s.id]=true;updateProgress();alert('🎉 Бонусный раздел пройден!');currentScreen='home';mountApp();}
+                else alert(`😺 Нужно 5 очков! У тебя ${sc}.`);
+            });
+        }
+        else{
+            document.querySelectorAll('.opt-btn').forEach(b=>b.addEventListener('click',e=>{
+                const p=b.closest('.options'); if(p) p.querySelectorAll('.opt-btn').forEach(x=>x.classList.remove('selected'));
+                b.classList.add('selected');
+                const ti=parseInt(b.dataset.task), v=b.dataset.val;
+                if(!answersStorage[s.id]) answersStorage[s.id]={};
+                answersStorage[s.id][ti]=v;
+            }));
+            document.querySelectorAll('.check-choice').forEach(b=>b.addEventListener('click',e=>{
+                const ti=parseInt(b.dataset.task), t=s.tasks[ti], u=answersStorage[s.id]?.[ti], fb=document.getElementById(`fb_${s.id}_${ti}`);
+                if(!u){fb.style.display='flex';fb.innerHTML='⚠️ Выбери вариант!';fb.className='feedback wrong';return;}
+                const ok=u===t.correct;
+                fb.style.display='flex'; fb.className=`feedback ${ok?'correct':'wrong'}`;
+                fb.innerHTML=ok?`✅ ${randMsg(PRAISE)}`:`❌ ${randMsg(ENCOURAGE)}<br>💡 Правильно: ${t.correct}`;
+                let allOk=true;
+                for(let i=0;i<s.tasks.length;i++){const a=answersStorage[s.id]?.[i]; if(a!==s.tasks[i].correct) allOk=false;}
+                sectionProgress[s.id]=allOk; updateProgress();
+            }));
+            document.querySelectorAll('.check-input').forEach(b=>b.addEventListener('click',e=>{
+                const ti=parseInt(b.dataset.task), t=s.tasks[ti], inp=document.querySelector(`.input-field[data-task="${ti}"]`), fb=document.getElementById(`fb_${s.id}_${ti}`);
+                const u=inp.value.trim().toLowerCase().replace(/\s/g,''), ok=u===t.correct.toLowerCase().replace(/\s/g,'');
+                fb.style.display='flex'; fb.className=`feedback ${ok?'correct':'wrong'}`;
+                fb.innerHTML=ok?`✅ ${randMsg(PRAISE)}`:`❌ ${randMsg(ENCOURAGE)}<br>💡 Ответ: ${t.correct}`;
+                inp.classList.add(ok?'correct-input':'wrong-input');
+                if(!answersStorage[s.id]) answersStorage[s.id]={};
+                answersStorage[s.id][ti]=u;
+                let allOk=true;
+                for(let i=0;i<s.tasks.length;i++){const a=answersStorage[s.id]?.[i]; if(a!==s.tasks[i].correct.toLowerCase()) allOk=false;}
+                sectionProgress[s.id]=allOk; updateProgress();
+            }));
+        }
+        document.getElementById('backHomeBtn')?.addEventListener('click',()=>{currentScreen='home';mountApp();});
+    }
+
+    function mountApp() {
+        const root = document.getElementById('appRoot');
+        if(currentScreen==='home'){
+            root.innerHTML=renderHome();
+            document.querySelectorAll('.section-btn').forEach(b=>b.addEventListener('click',e=>{
+                activeSection=parseInt(b.dataset.id);
+                quizAnswers=[]; quizCurrentIndex=0; quizCompleted=false;
+                catGameInitialized=interactiveInitialized=visual4Initialized=visual5Initialized=false;
+                currentScreen='section'; mountApp();
+            }));
+            updateProgress();
+        } else {
+            root.innerHTML=renderSectionById(activeSection);
+            attachEvents(SECTIONS_DATA.find(s=>s.id===activeSection));
+        }
+    }
+
+    mountApp();
+</script>
+</body>
+</html>
